@@ -36,13 +36,6 @@ def user_count():
     users = set(df['user'])
     return users
 
-def xgboost(X_train,y_train):
-    from xgboost import XGBClassifier
-    from sklearn.metrics import precision_recall_curve
-    model = XGBClassifier()
-    model.fit(X_train, y_train)
-    return model
-
 def logistic_regression(train_x, train_y):
     from sklearn import linear_model
     from sklearn import metrics
@@ -104,20 +97,6 @@ def cba_calc_probs(beta, test_x):
         prob.append( soma/np.sum(mfcc.astype(float)))
     prob = np.array(prob)
     return prob 
-
-
-def Find_Optimal_Cutoff_pr(target, predicted):
-    precision, recall, threshold = precision_recall_curve(target, predicted)
-    precision = precision[:-1]
-    recall = recall[:-1]
-    i = np.arange(len(precision))
-    ap = pd.DataFrame({'tf' : pd.Series((precision+recall)/(2*precision*recall), index=i), 'threshold' : pd.Series(threshold, index=i)})
-    ap_t = ap.ix[(ap.tf-0).abs().argsort()[:1]]
-
-    #optimal_idx = np.argmax((precision + recall)/(2*precision*recall))
-    #optimal_threshold = thresholds[optimal_idx]
-    return list(ap_t['threshold'])
-    #return optimal_threshold
 
 def Find_Optimal_Cutoff_roc(target, predicted):
     fpr, tpr, thresholds = roc_curve(target, predicted)
@@ -214,11 +193,6 @@ if __name__ == "__main__":
                 lst,skp,pld = get_user_data(usr)
                 #SELECIONAR QUEM OUVIU ACIMA DE UM VALOR E SALTOU ACIMA DE OUTRO VALOR
                 if len(lst) < min_lst: continue
-#                print("USUARIO "+str(usr))
-#                print(sorted(pld[:10]))
-#                print(sorted(lst[:10]))
-#                print(str(len(pld)) + " TOCADAS")
-#                print(str(len(lst)) + " ESCUTADAS")
 
                 #FILTRA A MATRIZ DE MFCC RESTANDO APENAS AS QUE FORAM TOCADAS
                 mfcc_played = []

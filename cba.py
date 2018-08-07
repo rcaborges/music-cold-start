@@ -4,22 +4,21 @@ import pandas as pd
 from sklearn.metrics import roc_auc_score, log_loss, roc_auc_score, roc_curve, auc
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.metrics import precision_recall_curve
-from matplotlib import pyplot as plt
 
 def get_content_data(k):
-    df = pd.read_csv("codewords/mfcc_hist_"+str(k)+".csv",header=0,sep=',')
+    df = pd.read_csv("../codewords/mfcc_hist_"+str(k)+".csv",header=0,sep=',')
     return df
 
 def get_user_data(user_num):
     usr = int(user_num)
     ### MUSICAS TOCADAS
-    df = pd.read_csv("codewords/user_play_counts.csv",header=None,sep=',')
+    df = pd.read_csv("../codewords/user_play_counts.csv",header=None,sep=',')
     df.columns = ['user', 'song','play_count']
     usr_count = df.loc[df['user'] == usr]
     play_count = usr_count['song'].values
     played = list(play_count)
     ### MUSICAS ESCUTADAS
-    df = pd.read_csv("codewords/user_listened_counts.csv",header=None,sep=',')
+    df = pd.read_csv("../codewords/user_listened_counts.csv",header=None,sep=',')
     df.columns = ['user', 'song','play_count']
     usr_count = df.loc[df['user'] == usr]
     listened_count = usr_count['song'].values
@@ -31,7 +30,7 @@ def get_user_data(user_num):
     return listened, skiped, played
 
 def user_count():
-    df = pd.read_csv("codewords/user_listened_counts.csv",header=None,sep=',')
+    df = pd.read_csv("../codewords/user_listened_counts.csv",header=None,sep=',')
     df.columns = ['user', 'song','play_count']
     users = set(df['user'])
     return users
@@ -135,12 +134,6 @@ def calc_metrics(pred_y, y_test,pred_y_train,y_train):
     roc = 0.5
     if len(set(y_test)) > 1: roc = roc_auc_score(y_test, y_pred)
     return acc,precision,recall,fscore,ap,roc
-
-def plot_diversity(div):
-    plt.boxplot(div, 0, '')
-    plt.xticks(range(1,len(div)+1), ['5','10','25','50','100','200'])
-    plt.tight_layout()
-    plt.show() 
 
 if __name__ == "__main__":
 
@@ -313,19 +306,6 @@ if __name__ == "__main__":
         cba_train_recall.append(metrics_cba_train[:,2])
         cba_train_fm.append(metrics_cba_train[:,3])
         print("-------------------------------------")
-
-    plot_diversity(log_prec)
-    plot_diversity(log_recall)
-    plot_diversity(log_fm)
-    plot_diversity(log_train_prec)
-    plot_diversity(log_train_recall)
-    plot_diversity(log_train_fm)
-    plot_diversity(cba_prec)
-    plot_diversity(cba_recall)
-    plot_diversity(cba_fm)
-    plot_diversity(cba_train_prec)
-    plot_diversity(cba_train_recall)
-    plot_diversity(cba_train_fm)
 
  
     

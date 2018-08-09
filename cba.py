@@ -122,7 +122,6 @@ def calc_metrics(pred_y, y_test,pred_y_train,y_train):
             y_pred.append(1)
         else:
             y_pred.append(0)
-    #y_pred = np.around(y_pred)
 
     from sklearn.metrics import accuracy_score
     acc =  accuracy_score(y_test, y_pred)
@@ -139,21 +138,7 @@ if __name__ == "__main__":
 
     #LE ARQUIVOS DE EXECUCOES PARA DETECTAR QUANTOS USUARIOS EXISTEM NA BASE
     users = user_count()
-#    print(str(len(users)) + " USUARIOS")
     min_lst = 100
-
-    log_prec = []
-    log_fm = []
-    log_recall = []
-    log_train_prec = []
-    log_train_fm = []
-    log_train_recall = []
-    cba_prec = []
-    cba_fm = []
-    cba_recall = []
-    cba_train_prec = []
-    cba_train_fm = []
-    cba_train_recall = []
 
     knum = [5,10,25,50,100,200]
     for k_num in knum:
@@ -214,7 +199,6 @@ if __name__ == "__main__":
                 test_x = mfcc_played.drop('play',1)[lmt:]
 
                 # REGRESSAO LOGISTICA
-                #print("LOG REG")
                 log_model = logistic_regression(train_x,train_y)
                 preds_log = log_model.predict_proba(test_x)[:,1]
                 preds_log_train = log_model.predict_proba(train_x)[:,1]
@@ -223,7 +207,6 @@ if __name__ == "__main__":
                 acc,precision,recall,fscore,ap,aroc = calc_metrics(preds_log_train,train_y,preds_log_train,train_y)
                 metrics_log_train.append([acc,precision,recall,fscore,ap,aroc])
                 #CBA
-                #print("CBA")
                 beta_value = float(k_num)/100
                 beta_matrix = cba(train_x,train_y,beta_value)
                 preds_cba = cba_calc_probs(beta_matrix, test_x)  
@@ -293,19 +276,6 @@ if __name__ == "__main__":
                 "%.3f" % round(np.mean(metrics_cba_train[:,5]),3),
                 "(","%.3f" % round(np.std(metrics_cba_train[:,5]),3),")")
 
-        log_prec.append(metrics_log[:,1])
-        log_recall.append(metrics_log[:,2])
-        log_fm.append(metrics_log[:,3])
-        log_train_prec.append(metrics_log_train[:,1])
-        log_train_recall.append(metrics_log_train[:,2])
-        log_train_fm.append(metrics_log_train[:,3])
-        cba_prec.append(metrics_cba[:,1])
-        cba_recall.append(metrics_cba[:,2])
-        cba_fm.append(metrics_cba[:,3])
-        cba_train_prec.append(metrics_cba_train[:,1])
-        cba_train_recall.append(metrics_cba_train[:,2])
-        cba_train_fm.append(metrics_cba_train[:,3])
-        print("-------------------------------------")
 
  
     

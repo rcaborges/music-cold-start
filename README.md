@@ -4,4 +4,4 @@ BORGES, R. C.; QUEIROZ, M. . Automatic Music Recommendation Based on Acoustic Co
 
 (https://doi.org/10.5216/mh.v18i1.53569	)
 
-Dataset available at https://www.ime.usp.br/~rcborges/
+Dataset available at https://www.ime.usp.br/~rcborges/bpmd

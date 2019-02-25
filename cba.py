@@ -146,8 +146,6 @@ if __name__ == "__main__":
         preds_acum_log_train = []
         preds_acum_cba = []
         preds_acum_cba_train = []
-        preds_acum_xgb = []
-        preds_acum_xgb_train = []
         preds_acum_rand = []
         test_y_acum = []
         train_y_acum = []

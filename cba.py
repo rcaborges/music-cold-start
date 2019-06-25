@@ -1,6 +1,15 @@
 import numpy as np
 
 def cba(codeMatrix, bernMatrix, beta_value):
+    """
+    input:
+       codeMatrix - matrix containing codewords of songs
+       bernMatrix - matrix containing implicit feedback
+       beta_value - the minimum difference between estimated matrix 
+    output:
+       beta - the matrix learned as the model to be used in the prediction  
+
+    """
     codeMatrix = np.array(codeMatrix)
     bernMatrix = np.array(bernMatrix)
     beta = np.random.rand(codeMatrix.shape[1])
@@ -44,6 +53,14 @@ def cba(codeMatrix, bernMatrix, beta_value):
     return beta
 
 def cba_calc_probs(beta, test_x):
+    """
+    input:
+       beta - matrix learned during the training 
+       test_x - codewords of test songs
+    output:
+       prob - probabilities estimated for new songs
+
+    """
     test_x = np.array(test_x)
     prob = []
     for mfcc in test_x:

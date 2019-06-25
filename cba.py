@@ -52,5 +52,7 @@ def cba_calc_probs(beta, test_x):
             soma = soma + (float(mfcc[j])*float(beta[j]))
         prob.append( soma/np.sum(mfcc.astype(float)))
     prob = np.array(prob)
-    return prob
+    return prob 
+
+    
 

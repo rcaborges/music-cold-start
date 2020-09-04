@@ -109,12 +109,13 @@ def plot_comparison(data_a, data_b, ticks, method):
     plt.plot([], c='#2C7BB6', label='MLP + Codewords')
     #plt.plot([], c='#2C7BB6', label='CNN + STFT')
     plt.legend()
-    
+    plt.title(method)
+
     plt.xticks(range(0, len(ticks) * 2, 2), ticks)
     plt.xlim(-2, len(ticks)*2)
-    plt.ylim(np.min(np.concatenate((data_a,data_b),axis=1)), np.max(np.concatenate((data_a,data_b),axis=1)))
+    #plt.ylim(np.min(np.concatenate((data_a,data_b),axis=1)), np.max(np.concatenate((data_a,data_b),axis=1)))
     plt.tight_layout()
-    plt.savefig('boxcompare_'+method+'.pdf')
+    plt.savefig('plot/boxcompare_'+method+'.png')
 
 def print_results(method_name, results):
     results = np.array(results)
@@ -134,8 +135,8 @@ if __name__ == "__main__":
     #LE ARQUIVOS DE EXECUCOES PARA DETECTAR QUANTOS USUARIOS EXISTEM NA BASE
     users = user_count()
     min_lst = 100
-    arocs_cba, arocs_mlp, arocs_cnn = [], [], []
-    fmeas_cba, fmeas_mlp, fmeas_cnn = [], [], []
+    arocs_cba, arocs_mlp = [], []
+    fmeas_cba, fmeas_mlp = [], []
 
     # LOAD SONGS SPECTROGRAM
     #df_specs = pd.read_csv('../data/specs.csv', sep=';',names=['id','spec'])
@@ -143,9 +144,9 @@ if __name__ == "__main__":
 
     knum = [5,10,25,50,100,200]
     for k_num in knum:
-        error_cba, error_mlp, error_cnn = [], [], []
-        metrics_cba, metrics_mlp, metrics_cnn = [], [], []
-        metrics_cba_train, metrics_mlp_train, metrics_cnn_train = [], [], []
+        error_cba, error_mlp = [], []
+        metrics_cba, metrics_mlp = [], []
+        metrics_cba_train, metrics_mlp_train = [], []
         #LE DADOS DE MFCC DAS MUSICAS
         mfcc = get_content_data(k_num)
         print(mfcc.shape)
@@ -194,6 +195,7 @@ if __name__ == "__main__":
                 metrics_cba.append([acc,precision,recall,fscore,ap,aroc])
                 acc,precision,recall,fscore,ap,aroc = calc_metrics(preds_cba_train,train_y,preds_cba_train,train_y)
                 metrics_cba_train.append([acc,precision,recall,fscore,ap,aroc])
+
                 #MLP
                 preds_mlp, preds_mlp_train = dbc(train_x, train_y, test_x, test_y)
                 acc,precision,recall,fscore,ap,aroc = calc_metrics(preds_mlp,test_y,preds_mlp_train,train_y)
